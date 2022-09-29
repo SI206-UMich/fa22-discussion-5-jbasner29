@@ -43,22 +43,30 @@ class Warehouse:
 
 	# Returns the item in the warehouse with the most stock		
 	def get_max_stock(self):
-		maxamount = 0
+		if len(self.items) == 0:
+			return None
+		maxitem = self.items[0]
+		maxamount = self.items[0].stock
 		for item in self.items:
-			amount = self.items.count(item)
+			amount = item.stock
 			if amount > maxamount:
 				maxamount = amount
-			return item
+				maxitem = item
+		return maxitem
 		
 	
 	# Returns the item in the warehouse with the highest price
 	def get_max_price(self):
-		maxprice = 0
+		if len(self.items) == 0:
+			return None
+		maxitem = self.items[0]
+		maxprice = self.items[0].price
 		for item in self.items:
-			price = self.items.count(item)
+			price = item.price
 			if price > maxprice:
-				maxprice = price
-			return item
+				maxprice = item.price
+				maxitem = item
+		return maxitem
 			
 
 
@@ -85,17 +93,34 @@ class TestAllMethods(unittest.TestCase):
 	## Check to see whether you can add an item to the warehouse
 	def test_add_item(self):
 		self.warehouse1.add_item(self.item3)
-		pass
+		self.assertEqual(self.item1 in self.warehouse1.items, True, "Item 1 in Warehouse 1")
+		self.assertEqual(self.item3 in self.warehouse1.items, True, "Item 3 in Warehouse 1")
+		self.assertEqual(self.item4 in self.warehouse1.items, False, "Item 4 in Warehouse 1")
+
 
 
 	## Check to see whether warehouse correctly returns the item with the most stock
 	def test_warehouse_max_stocks(self):
-		pass
+		self.warehouse1.add_item(self.item1)
+		self.warehouse1.add_item(self.item2)
+		self.warehouse1.add_item(self.item3)
+		self.warehouse1.add_item(self.item4)
+		self.warehouse1.add_item(self.item5)
+
+		
+		self.assertEqual(self.warehouse1.get_max_stock(), self.item3, "Max stock is Item 3")
 
 
 	# Check to see whether the warehouse correctly return the item with the highest price
 	def test_warehouse_max_price(self):
-		pass
+		self.warehouse1.add_item(self.item1)
+		self.warehouse1.add_item(self.item2)
+		self.warehouse1.add_item(self.item3)
+		self.warehouse1.add_item(self.item4)
+		self.warehouse1.add_item(self.item5)
+
+		self.assertEqual(self.warehouse1.get_max_price(), self.item1, "Max price is Item 1")
+		
 		
 
 def main():
